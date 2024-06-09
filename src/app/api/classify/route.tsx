@@ -32,21 +32,31 @@ export async function POST(request: NextRequest) {
       content = JSON.parse(completion.choices[0].message.content);
     } else {
       // Handle the null case appropriately,
-      return NextResponse.json({
-        error: "Failed to get valid response (null)",
-      });
+      return NextResponse.json(
+        {
+          error: "Failed to get valid response (null)",
+        },
+        { status: 400 }
+      );
     }
     console.log(content);
 
     if (!Array.isArray(content)) {
       // Handle the case where content is still not an array
-      return NextResponse.json({
-        error: "Failed to get valid response",
-      });
+      return NextResponse.json(
+        {
+          error: "Failed to get valid response",
+        },
+        { status: 400 }
+      );
     }
     const category = content.map((item) => item.category);
     return NextResponse.json(category);
   } catch (error) {
-    return NextResponse.json(error);
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(error.errors, { status: 400 });
+    }
+    console.log(error);
+    return NextResponse.json("Internal server Error", { status: 500 });
   }
 }

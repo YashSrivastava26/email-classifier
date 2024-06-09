@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import HomeNav from "@/components/HomeNav";
 import { emailType } from "@/types/emailType";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { userType } from "@/types/userType";
 import HomeHero from "@/components/HomeHero";
 
@@ -13,7 +12,6 @@ const Page = () => {
   const [emailList, setEmailList] = useState<emailType[]>([]);
   const [user, setUser] = useState<userType | null>(null);
   const [maxResults, setMaxResults] = useState<number>(1);
-  const router = useRouter();
 
   // Fetch access token from URL
   useEffect(() => {
@@ -28,6 +26,9 @@ const Page = () => {
 
     if (accessToken) {
       localStorage.setItem("authinfo", accessToken);
+    } else {
+      console.error("Unauthorized access. Redirecting to login.");
+      window.location.href = "/";
     }
 
     setToken(localStorage.getItem("authinfo"));
@@ -47,7 +48,7 @@ const Page = () => {
         .catch((error) => {
           localStorage.removeItem("authinfo");
           console.error("Unauthorized access. Redirecting to login.");
-          router.push("/");
+          window.location.href = "/";
         });
     }
   };
@@ -72,7 +73,7 @@ const Page = () => {
         .catch((error) => {
           localStorage.removeItem("authinfo");
           console.error("Unauthorized access. Redirecting to login.");
-          router.push("/");
+          window.location.href = "/";
         });
     }
   };

@@ -10,6 +10,10 @@ interface HomeNavProps {
 }
 
 const HomeNav: FC<HomeNavProps> = ({ user }) => {
+  const logout = () => {
+    localStorage.removeItem("authinfo");
+    window.location.href = "/";
+  };
   return (
     <div className="flex mt-16  w-full justify-between">
       <div className="flex">
@@ -38,7 +42,7 @@ const HomeNav: FC<HomeNavProps> = ({ user }) => {
         )}
       </div>
 
-      <Button variant="link">
+      <Button variant="link" onClick={() => logout()}>
         <LuLogOut className="h-6 w-6 mr-4" />
         Logout
       </Button>

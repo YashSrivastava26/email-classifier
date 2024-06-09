@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   try {
     const token = request.headers.get("Authorization");
-    console.log(token);
 
     const res = await axios.get(
       "https://www.googleapis.com/oauth2/v3/userinfo",
