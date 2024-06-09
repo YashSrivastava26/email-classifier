@@ -8,7 +8,8 @@ import { FcGoogle } from "react-icons/fc";
 
 export default function Home() {
   const [openAIKey, setOpenAIKey] = useState<string>("");
-
+  const baseUrl = process.env.VERCEL_URL;
+  
   const oauthSignIn = () => {
     localStorage.setItem("openAIKey", openAIKey);
 
@@ -16,7 +17,7 @@ export default function Home() {
     const params = {
       client_id:
         "363487042594-3a7dmgn0k0t3ae6dc5hri4k8bkmovdee.apps.googleusercontent.com",
-      redirect_uri: "http://localhost:3000/home",
+      redirect_uri: baseUrl ? baseUrl : "http://localhost:3000/home",
       response_type: "token",
       scope:
         "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/gmail.readonly ",
